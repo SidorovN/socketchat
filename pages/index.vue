@@ -1,72 +1,81 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        socketchat
-      </h1>
-      <h2 class="subtitle">
-        My exquisite Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+    <form class="form" @submit.prevent="submit">
+      <label class="form__label">Username
+        <Input type="text" v-model="name">
+      </label>
+      <label class="form__label">Room
+        <Input type="text" v-model="room">
+      </label>
+      <btn class="form__button">Login</btn>
+    </form>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import Button from '@/components/ui/Button'
+import Input from '@/components/ui/Input'
 export default {
   components: {
-    Logo
-  }
+    btn: Button,
+    Input
+  },
+  data(){
+    return{
+      room: '',
+      name: ''
+    }
+  },
+    sockets: {
+        connect: function () {
+            console.log('socket connected')
+        },
+    },
+    methods: {
+      submit() {
+        const user ={
+          name: this.name,
+          room: this.room
+        }
+
+        this.$socket.client.emit("userJoined", user, data => {
+          if (typeof data === "string") {
+            console.error(data);
+          } else {
+            user.id = data.userId;
+            this.setUser(user);
+            this.$router.push("/chat");
+          }
+        })
+        
+
+      }
+    }
+
 }
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.form {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 24px;
+  background: #121212;;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.form__label {
+  font-size: 18px;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
 
-.links {
-  padding-top: 15px;
+.form__button {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 24px;
+  width: 100%;
+  background: #03DAC5;
+  border: none;
+  padding: 16px 0;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 4px 5px rgba(0, 0, 0, 0.14);
+  border-radius: 28px;
 }
 </style>
