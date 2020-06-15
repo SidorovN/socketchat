@@ -1,10 +1,10 @@
 <template>
     <form class="form" @submit.prevent="submit">
       <label class="form__label">Username
-        <Input type="text" v-model="name" />
+        <Input type="text" v-model="name" class="form__input"/>
       </label>
       <label class="form__label">Room
-        <Input type="text" v-model="room" />
+        <Input type="text" v-model="room" class="form__input"/>
       </label>
       <btn class="form__button">Login</btn>
     </form>
@@ -65,6 +65,10 @@ export default {
   font-size: 18px;
 }
 
+.form__input {  
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
 
 .form__button {
   font-family: inherit;

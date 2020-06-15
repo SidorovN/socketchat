@@ -18,7 +18,5 @@
   color: rgba(255, 255, 255, 0.87);
   outline: none;
   height: 48px;
-  margin-top: 24px;
-  margin-bottom: 24px;
 }
 </style>
