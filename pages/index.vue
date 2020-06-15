@@ -1,10 +1,10 @@
 <template>
     <form class="form" @submit.prevent="submit">
       <label class="form__label">Username
-        <Input type="text" v-model="name">
+        <Input type="text" v-model="name" />
       </label>
       <label class="form__label">Room
-        <Input type="text" v-model="room">
+        <Input type="text" v-model="room" />
       </label>
       <btn class="form__button">Login</btn>
     </form>
