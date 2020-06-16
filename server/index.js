@@ -1,7 +1,15 @@
-const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-const app = express()
+
+const app = require('express')()
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+
+io.on('connection',socket => {
+
+  console.log('Io connected')
+
+})
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
@@ -24,10 +32,12 @@ async function start () {
   app.use(nuxt.render)
 
   // Listen the server
-  app.listen(port, host)
-  consola.ready({
-    message: `Server listening on http://${host}:${port}`,
-    badge: true
+  server.listen(port, ()=> {
+      consola.ready({
+      message: `Server listening on http://${host}:${port}`,
+      badge: true
+    })
   })
+  
 }
 start()
