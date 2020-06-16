@@ -17,8 +17,6 @@
   font-family: inherit;
   font-weight: bold;
   font-size: 18px;
-  margin-top: 24px;
-  width: 100%;
   background: #03DAC5;
   border: none;
   padding: 16px 0;
