@@ -1,7 +1,9 @@
 <template>
   <div class="root">
     <my-header/>
-    <nuxt />
+    <main class="root__main">
+      <nuxt />
+    </main>
   </div>
 </template>
 
@@ -35,8 +37,13 @@ html {
   margin: 0;
 }
 .root{
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09)), #121212;  
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), #121212;  
   color: rgba(255, 255, 255, 0.87);
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.root__main {
+  flex-grow: 2;
 }
 </style>

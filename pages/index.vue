@@ -6,7 +6,7 @@
       <label class="form__label">Room
         <Input type="text" v-model="room" class="form__input"/>
       </label>
-      <btn class="form__button">Login</btn>
+      <btn class="form__btn">Login</btn>
     </form>
 </template>
 
@@ -68,18 +68,14 @@ export default {
 .form__input {  
   margin-top: 24px;
   margin-bottom: 24px;
+  width: 100%;
+  height: 54px;
 }
 
-.form__button {
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 18px;
+.form__btn {  
   margin-top: 24px;
   width: 100%;
-  background: #03DAC5;
-  border: none;
-  padding: 16px 0;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 4px 5px rgba(0, 0, 0, 0.14);
-  border-radius: 28px;
 }
+
+
 </style>
