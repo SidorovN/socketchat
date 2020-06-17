@@ -1,11 +1,10 @@
 <template>
   <li :class="['message' , `message_from_${owner}`]">
-    <div :class="['message__image' , `message__image_from_${owner}`]"></div>
-      <div :class="['message__text-content' , `message__text-content_from_${owner}`]">
-        <span v-if="owner!=='admin'" class="message__name">{{name}}</span>
-        <p :class="['message__text' , `message__text_from_${owner}`]">
+    <div :class="['message__text-content' , `message__text-content_from_${owner}`]">
+      <span v-if="owner!=='admin'" class="message__name">{{name}}</span>
+      <p :class="['message__text' , `message__text_from_${owner}`]">
         <slot></slot>
-        </p> 
+      </p> 
     </div>
   </li>
 </template>
@@ -26,11 +25,11 @@
   margin-top: 30px;
   display: flex;
 }
-.message_from_user{
+.message_from_bot{
   align-self: flex-start;
   text-align: left;
 }
-.message_from_bot{
+.message_from_user{
   flex-direction: row-reverse;
   align-self: flex-end;
   text-align: right;
@@ -41,30 +40,18 @@
 
 .message__text-content {
   margin: 0 24px;
-  border-radius: 35px;
   font-size: 18px;
   padding: 20px;
-  color: #282828;
 }
 
 .message__text-content_from_user {
-  background-color: #F1F0F0;
+  border-radius: 20px 20px 0 20px;
+  background: rgba(187, 134, 252, 0.12);
 }
 
 .message__text-content_from_bot {
-  background-color: #F9C35B;
-}
-
-.message__image {
-  width: 70px;
-  height: 70px;
-}
-.message__image_from_user {
-  background-image: url(/images/user.png);
-}
-
-.message__image_from_bot {
-  background-image: url(/images/bot.png);
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 20px 20px 20px 0;
 }
 
 
