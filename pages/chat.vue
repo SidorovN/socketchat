@@ -1,11 +1,10 @@
 <template>
   <div class="chatroom">
     <div class="chat">
-    <aside :class="['sidebar', {sidebar_opened : showSidebar}]">
-      <button class="sidebar__toggler" @click="toggleSidebar">
-        +
-      </button>
-    </aside>
+      <Sidebar 
+      :users="getUsers"
+      :room="404"
+      />
 
     <Container class="chat__container">
 
@@ -37,57 +36,71 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Container from '@/components/Container';
 import Message from '@/components/Message';
+import Sidebar from '@/components/Sidebar';
   export default {
     components: {
       btn: Button,
       Container,
       Input,
-      Message
+      Message,
+      Sidebar
     },
     data () {
       return {
-        showSidebar: false,
-        messages:[ {
-        name: 'Ленка',
-        owner: 'user',
-        id:1,
-        text: 'Приветики  '
-      },
-      {
-        name: 'Ленка',
-        owner: 'bot',
-        id:2,
-        text: 'Приветики '
-      },
-      {
-        name: 'Ленка',
-        owner: 'user',
-        id:3,
-        text: 'Приветики '
-      },
-      {
-        name: 'Ленка',
-        owner: 'bot',
-        id:4,
-        text: 'Приветик '
-      },      {
-        name: 'Ленка',
-        owner: 'bot',
-        id:5,
-        text: 'Приветик '
-      },      {
-        name: 'Ленка',
-        owner: 'bot',
-        id:6,
-        text: 'Приветик '
-      },
-      
-      ]
-        }
+        // room: '404',
+        messages:
+        [ 
+          {
+            name: 'Ленка',
+            owner: 'user',
+            id:1,
+            text: 'Приветики  '
+          },
+          {
+            name: 'Ленка',
+            owner: 'bot',
+            id:2,
+            text: 'Приветики '
+          },
+          {
+            name: 'Ленка',
+            owner: 'user',
+            id:3,
+            text: 'Приветики '
+          },
+          {
+            name: 'Ленка',
+            owner: 'bot',
+            id:4,
+            text: 'Приветик '
+          },      {
+            name: 'Ленка',
+            owner: 'bot',
+            id:5,
+            text: 'Приветик '
+          },      {
+            name: 'Ленка',
+            owner: 'bot',
+            id:6,
+            text: 'Приветик '
+          },      
+        ]
+      }
     },
-    methods: {
-      toggleSidebar() {
-        this.showSidebar = !this.showSidebar
+    computed: {
+      getUsers(){
+        return [
+          {
+            name: 'Ленка',
+            id: '1',
+            active: true
+          },
+          {
+            name: 'Не Ленка',
+            id: '2',
+            active: false
+          },
+        ]
       }
     }
   }
@@ -95,32 +108,6 @@ import Message from '@/components/Message';
 
 <style>
 
-
-.sidebar {
-  flex-basis: 0;
-  flex-shrink: 0;
-  height: 100%;
-  position: relative;
-  background:#1f1f1f;
-  transition: .5s ease-in-out;
-}
-
-.sidebar_opened{
-  flex-basis: 300px;
-  box-shadow: 0 -5px 3px 5px rgb(25, 25, 25);
-}
-.sidebar__toggler {
-  color: white;
-  font-size: 32px;
-  background-color: inherit;
-  outline: none;
-  border: none;
-  position: absolute;
-  top:0;
-  right:-40px;
-  height: 40px;
-  width:40px;
-}
 .chat__container{
   height: 100%;
   overflow: hidden;
