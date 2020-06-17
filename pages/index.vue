@@ -46,6 +46,7 @@ export default {
           }
         })
         
+            this.$router.push("/chat");
 
       }
     }
@@ -53,7 +54,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .form {
   max-width: 500px;
   margin: 50px auto;

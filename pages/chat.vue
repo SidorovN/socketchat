@@ -10,7 +10,12 @@
     <Container class="chat__container">
 
         <ul class="chat__messages-list">
-
+          <Message 
+          v-for="m in messages"
+          :key="m.id"
+          :owner="m.owner"
+          :name="m.name"
+          >{{m.text}}</Message>
         </ul>
 
     </Container>
@@ -26,20 +31,58 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Container from '@/components/Container';
+import Message from '@/components/Message';
   export default {
     components: {
       btn: Button,
       Container,
-      Input
+      Input,
+      Message
     },
     data () {
       return {
-        showSidebar: false
+        showSidebar: false,
+        messages:[ {
+        name: 'Ленка',
+        owner: 'user',
+        id:1,
+        text: 'Приветики  '
+      },
+      {
+        name: 'Ленка',
+        owner: 'bot',
+        id:2,
+        text: 'Приветики '
+      },
+      {
+        name: 'Ленка',
+        owner: 'user',
+        id:3,
+        text: 'Приветики '
+      },
+      {
+        name: 'Ленка',
+        owner: 'bot',
+        id:4,
+        text: 'Приветик '
+      },      {
+        name: 'Ленка',
+        owner: 'bot',
+        id:5,
+        text: 'Приветик '
+      },      {
+        name: 'Ленка',
+        owner: 'bot',
+        id:6,
+        text: 'Приветик '
+      },
+      
+      ]
         }
     },
     methods: {
@@ -51,18 +94,18 @@ import Container from '@/components/Container';
 </script>
 
 <style>
+
+
 .sidebar {
   flex-basis: 0;
   flex-shrink: 0;
   height: 100%;
-  /* transform: translate(-100%); */
   position: relative;
   background:#1f1f1f;
   transition: .5s ease-in-out;
 }
 
 .sidebar_opened{
-  /* transform: translate(0); */
   flex-basis: 300px;
   box-shadow: 0 -5px 3px 5px rgb(25, 25, 25);
 }
@@ -80,6 +123,7 @@ import Container from '@/components/Container';
 }
 .chat__container{
   height: 100%;
+  overflow: hidden;
 }
 .chatroom {
   max-width: 1440px;
@@ -94,8 +138,10 @@ import Container from '@/components/Container';
   display: flex;
 }
 .chat__messages-list {
-  flex-grow: 1;
-  flex-shrink: 0;
+  max-height: calc(100vh - 195px);
+  list-style: none;
+  padding: 0;
+  overflow: auto;
 }
 
 .form {
