@@ -145,6 +145,7 @@ import Message from '@/components/Message';
 }
 
 .form {
+  width: 100%;
   background: #121212;;
   box-shadow: 0 3px 30px 3px rgb(68, 68, 68);
 }
