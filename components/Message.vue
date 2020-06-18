@@ -1,7 +1,7 @@
 <template>
   <li :class="['message' , `message_from_${owner}`]">
     <div :class="['message__text-content' , `message__text-content_from_${owner}`]">
-      <span v-if="owner!=='admin'" class="message__name">{{name}}</span>
+      <span v-if="name!=='admin'" class="message__name">{{name}}</span>
       <p :class="['message__text' , `message__text_from_${owner}`]">
         <slot></slot>
       </p> 
