@@ -1,5 +1,5 @@
 <template>
-  <input type="text" class="input" @input="$emit('inp-change',model)" v-model="model">
+  <input type="text" class="input" @input="$emit('inp-change',model)" v-model="model" >
 </template>
 
 <script>

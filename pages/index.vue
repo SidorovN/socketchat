@@ -1,10 +1,10 @@
 <template>
     <form class="form" @submit.prevent="submit">
       <label class="form__label">Username
-        <Input type="text" @inp-change="saveName" class="form__input"/>
+        <input type="text" v-model="name" class="form__input"/>
       </label>
       <label class="form__label">Room
-        <Input type="text" @inp-change="saveRoom" class="form__input"/>
+        <input type="text" v-model="room" class="form__input"/>
       </label>
       <btn class="form__btn">Login</btn>
     </form>
@@ -32,12 +32,6 @@ export default {
     },
     methods: {
     ...mapMutations(["setUser"]),
-      saveName(name) {
-        this.name = name
-      },
-      saveRoom(room) {
-        this.room = room
-      },
       submit() {
         const user = {
           name: this.name,
@@ -77,6 +71,15 @@ export default {
   margin-bottom: 24px;
   width: 100%;
   height: 54px;
+  display: block;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50px;
+  padding: 0 24px;
+  color: rgba(255, 255, 255, 0.87);
+  outline: none;
+
 }
 
 .form__btn {  

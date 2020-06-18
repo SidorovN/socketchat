@@ -11,17 +11,17 @@
         <ul class="chat__messages-list">
           <Message 
           v-for="m in messages"
-          :key="m.id"
-          :owner="m.owner"
+          :key="messages.indexOf(m)"
+          :owner="setOwner(m)"
           :name="m.name"
           >{{m.text}}</Message>
         </ul>
 
     </Container>
     </div>
-          <form class="form">
+          <form class="form" @submit.prevent="sendMessage">
             <Container class="form__container">
-          <Input class="from__input"/>
+          <input class="from__input" v-model="message"/>
           <btn class="from__btn">
             Send
           </btn>          
@@ -51,52 +51,31 @@ import Sidebar from '@/components/Sidebar';
     },
     data () {
       return {
-        // room: '404',
-        // messages:
-        // [ 
-        //   {
-        //     name: 'Ленка',
-        //     owner: 'user',
-        //     id:1,
-        //     text: 'Приветики  '
-        //   },
-        //   {
-        //     name: 'Ленка',
-        //     owner: 'bot',
-        //     id:2,
-        //     text: 'Приветики '
-        //   },
-        //   {
-        //     name: 'Ленка',
-        //     owner: 'user',
-        //     id:3,
-        //     text: 'Приветики '
-        //   },
-        //   {
-        //     name: 'Ленка',
-        //     owner: 'bot',
-        //     id:4,
-        //     text: 'Приветик '
-        //   },      {
-        //     name: 'Ленка',
-        //     owner: 'bot',
-        //     id:5,
-        //     text: 'Приветик '
-        //   },      {
-        //     name: 'Ленка',
-        //     owner: 'bot',
-        //     id:6,
-        //     text: 'Приветик '
-        //   },      
-        // ]
+        message: ''
       }
     },
     
     computed: mapState(["user", "messages"]),
-
-
- 
+    methods: {
+      sendMessage() {
+        this.$socket.client.emit("sendMessage", {
+          id: this.user.id,
+          text: this.message
+        },this.clearField)
+        
+      },
+      setOwner(message) {
+        if (message.name == 'admin') return         
+        if (message.id == this.user.id) return 'user'
+        return 'bot'
+      },
+      clearField(res){
+        console.log('удоли')
+        if(!res) this.message=''
+      }
+    }
   }
+   
 </script>
 
 <style>
@@ -138,8 +117,18 @@ import Sidebar from '@/components/Sidebar';
 .from__input {
   flex-grow: 1;
   margin-right: 24px;
+  display: block;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50px;
+  padding: 0 24px;
+  color: rgba(255, 255, 255, 0.87);
+  outline: none;
 }
+
 .from__btn {
   width: 100px;
 }
+
 </style>
