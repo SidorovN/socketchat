@@ -1,3 +1,28 @@
+class Users {
+  constructor() {
+    this.users = []
+  }
+  add(user) {
+    this.users.push(user)
+  }
+  get(id) {
+    return this.users.find(user=> user.id === id)
+  }
+  remove(id) {
+    const user = this.get(id)
+
+    if(user) {
+      this.users.filter(user=>user.id == id)
+    }
+    return user
+  }
+  getUserByRoom(room) {
+    return this.users.filter(user=>user.room == room)
+  }
+}
+
+const users = new Users()
+
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 
@@ -14,13 +39,26 @@ io.on('connection',socket => {
     }
 
     socket.join(data.room)
-    cb({ userId: socket.id })
+    users.remove(socket.id)
+    
+    users.add({
+      id: socket.id,
+      name: data.name,
+      room: data.room
+    })
+    cb({ userId: socket.id })    
     socket.emit('newMessage', m('admin', `Добро пожаловать, ${data.name}.`))
     socket.broadcast
       .to(data.room)
       .emit('newMessage', m('admin', `Пользователь ${data.name} зашел.`))
   })
-
+    socket.on('sendMessage',(data,callback)=> {
+      const user = users.get(data.id)
+      if (user) {
+        io.to(user.room).emit('newMessage', m(user.name,data.text,data.id))
+        callback()
+      } 
+    })
   console.log('Io connected')
 
 })
