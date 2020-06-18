@@ -1,10 +1,10 @@
 <template>
     <form class="form" @submit.prevent="submit">
       <label class="form__label">Username
-        <Input type="text" v-model="name" class="form__input"/>
+        <Input type="text" @inp-change="saveName" class="form__input"/>
       </label>
       <label class="form__label">Room
-        <Input type="text" v-model="room" class="form__input"/>
+        <Input type="text" @inp-change="saveRoom" class="form__input"/>
       </label>
       <btn class="form__btn">Login</btn>
     </form>
@@ -19,7 +19,7 @@ export default {
     Input
   },
   data(){
-    return{
+    return {
       room: '',
       name: ''
     }
@@ -30,24 +30,36 @@ export default {
         },
     },
     methods: {
+      saveName(name) {
+        this.name = name
+      },
+      saveRoom(room) {
+        this.room = room
+      },
       submit() {
-        const user ={
+        const user = {
           name: this.name,
           room: this.room
         }
-
-        this.$socket.client.emit("userJoined", user, data => {
-          if (typeof data === "string") {
-            console.error(data);
-          } else {
-            user.id = data.userId;
-            this.setUser(user);
-            this.$router.push("/chat");
-          }
-        })
-        
-            this.$router.push("/chat");
-
+        // this.$socket.client.emit("userJoined", user, data => {
+        //   if (typeof data === "string") {
+        //     console.error(data);
+        //   } else {
+        //     user.id = data.userId;
+            
+        //   }
+          this.setUser(user);
+          this.$router.push("/chat");
+        // })
+      },
+      setUser(user) {
+        console.log(user)
+        this.$store.dispatch('user/setUser',user)
+          .then(res=>this.getUser())
+          
+      },
+      getUser(){
+        console.log(this.$store.getters['user/getUser'].name)
       }
     }
 
