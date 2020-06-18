@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 export default {
@@ -30,6 +31,7 @@ export default {
         },
     },
     methods: {
+    ...mapMutations(["setUser"]),
       saveName(name) {
         this.name = name
       },
@@ -40,27 +42,19 @@ export default {
         const user = {
           name: this.name,
           room: this.room
-        }
-        // this.$socket.client.emit("userJoined", user, data => {
-        //   if (typeof data === "string") {
-        //     console.error(data);
-        //   } else {
-        //     user.id = data.userId;
-            
-        //   }
-          this.setUser(user);
-          this.$router.push("/chat");
-        // })
+        };
+
+        this.$socket.client.emit("userJoined", user, data => {
+          if (typeof data === "string") {
+            console.error(data);
+          } else {
+            user.id = data.userId;
+            console.log(user,'submit')
+            this.setUser(user);
+            this.$router.push("/chat");
+          }
+        })
       },
-      setUser(user) {
-        console.log(user)
-        this.$store.dispatch('user/setUser',user)
-          .then(res=>this.getUser())
-          
-      },
-      getUser(){
-        console.log(this.$store.getters['user/getUser'].name)
-      }
     }
 
 }

@@ -1,10 +1,10 @@
 <template>
   <div class="chatroom">
     <div class="chat">
-      <Sidebar 
+      <!-- <Sidebar 
       :users="getUsers"
       :room="404"
-      />
+      /> -->
 
     <Container class="chat__container">
 
@@ -31,6 +31,7 @@
 </template>
 
 <script scoped>
+import { mapState } from "vuex";
 
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
@@ -38,6 +39,9 @@ import Container from '@/components/Container';
 import Message from '@/components/Message';
 import Sidebar from '@/components/Sidebar';
   export default {
+    mounted() {
+      console.log(this.messages,this.user)
+    },
     components: {
       btn: Button,
       Container,
@@ -48,61 +52,50 @@ import Sidebar from '@/components/Sidebar';
     data () {
       return {
         // room: '404',
-        messages:
-        [ 
-          {
-            name: 'Ленка',
-            owner: 'user',
-            id:1,
-            text: 'Приветики  '
-          },
-          {
-            name: 'Ленка',
-            owner: 'bot',
-            id:2,
-            text: 'Приветики '
-          },
-          {
-            name: 'Ленка',
-            owner: 'user',
-            id:3,
-            text: 'Приветики '
-          },
-          {
-            name: 'Ленка',
-            owner: 'bot',
-            id:4,
-            text: 'Приветик '
-          },      {
-            name: 'Ленка',
-            owner: 'bot',
-            id:5,
-            text: 'Приветик '
-          },      {
-            name: 'Ленка',
-            owner: 'bot',
-            id:6,
-            text: 'Приветик '
-          },      
-        ]
+        // messages:
+        // [ 
+        //   {
+        //     name: 'Ленка',
+        //     owner: 'user',
+        //     id:1,
+        //     text: 'Приветики  '
+        //   },
+        //   {
+        //     name: 'Ленка',
+        //     owner: 'bot',
+        //     id:2,
+        //     text: 'Приветики '
+        //   },
+        //   {
+        //     name: 'Ленка',
+        //     owner: 'user',
+        //     id:3,
+        //     text: 'Приветики '
+        //   },
+        //   {
+        //     name: 'Ленка',
+        //     owner: 'bot',
+        //     id:4,
+        //     text: 'Приветик '
+        //   },      {
+        //     name: 'Ленка',
+        //     owner: 'bot',
+        //     id:5,
+        //     text: 'Приветик '
+        //   },      {
+        //     name: 'Ленка',
+        //     owner: 'bot',
+        //     id:6,
+        //     text: 'Приветик '
+        //   },      
+        // ]
       }
     },
-    computed: {
-      getUsers(){
-        return [
-          {
-            name: 'Ленка',
-            id: '1',
-            active: true
-          },
-          {
-            name: 'Не Ленка',
-            id: '2',
-            active: false
-          },
-        ]
-      }
-    }
+    
+    computed: mapState(["user", "messages"]),
+
+
+ 
   }
 </script>
 
