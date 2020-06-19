@@ -1,13 +1,26 @@
 <template>
-  <div>
-    <nuxt />
+  <div class="root">
+    <my-header/>
+    <main class="root__main">
+      <nuxt />
+    </main>
   </div>
 </template>
 
+<script>
+import Header from '~/components/Header';
+
+  export default {
+    components: {
+      'my-header':Header
+    }
+  }
+</script>
+
 <style>
+
 html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Jet Brains';
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -23,33 +36,14 @@ html {
   box-sizing: border-box;
   margin: 0;
 }
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+.root{
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), #121212;  
+  color: rgba(255, 255, 255, 0.87);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+.root__main {
+  flex-grow: 2;
 }
 </style>

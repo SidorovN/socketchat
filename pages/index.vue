@@ -1,72 +1,91 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        socketchat
-      </h1>
-      <h2 class="subtitle">
-        My exquisite Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+    <form class="form" @submit.prevent="submit">
+      <label class="form__label">Username
+        <input type="text" v-model="name" class="form__input"/>
+      </label>
+      <label class="form__label">Room
+        <input type="text" v-model="room" class="form__input"/>
+      </label>
+      <btn class="form__btn">Login</btn>
+    </form>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import { mapMutations } from "vuex";
+import Button from '@/components/ui/Button'
+import Input from '@/components/ui/Input'
 export default {
   components: {
-    Logo
-  }
+    btn: Button,
+    Input
+  },
+  data(){
+    return {
+      room: '',
+      name: ''
+    }
+  },
+    sockets: {
+        connect: function () {
+            console.log('socket connected')
+        },
+    },
+    methods: {
+    ...mapMutations(["setUser"]),
+      submit() {
+        const user = {
+          name: this.name,
+          room: this.room
+        };
+
+        this.$socket.client.emit("userJoined", user, data => {
+          if (typeof data === "string") {
+            console.error(data);
+          } else {
+            user.id = data.userId;
+            console.log(user,'submit')
+            this.setUser(user);
+            this.$router.push("/chat");
+          }
+        })
+      },
+    }
+
 }
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+<style scoped>
+.form {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 24px;
+  background: #121212;;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+.form__label {
+  font-size: 18px;
+}
+
+.form__input {  
+  margin-top: 24px;
+  margin-bottom: 24px;
+  width: 100%;
+  height: 54px;
   display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50px;
+  padding: 0 24px;
+  color: rgba(255, 255, 255, 0.87);
+  outline: none;
+
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.form__btn {  
+  margin-top: 24px;
+  width: 100%;
 }
 
-.links {
-  padding-top: 15px;
-}
+
 </style>
