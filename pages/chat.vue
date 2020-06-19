@@ -14,6 +14,7 @@
           :key="messages.indexOf(m)"
           :owner="setOwner(m)"
           :name="m.name"
+          @created="scrollBottom"
           >{{m.text}}</Message>
         </ul>
 
@@ -72,6 +73,12 @@ import Sidebar from '@/components/Sidebar';
       clearField(res){
         console.log('удоли')
         if(!res) this.message=''
+        this.scrollBottom()
+      },
+      scrollBottom(){
+        const messageList = document.querySelector('.chat__messages-list')
+        console.log(messageList)
+        messageList.scrollTo(0,messageList.scrollHeight)
       }
     }
   }
@@ -101,6 +108,9 @@ import Sidebar from '@/components/Sidebar';
   list-style: none;
   padding: 0;
   overflow: auto;
+}
+.chat__messages-list::-webkit-scrollbar {
+  width: 0;
 }
 
 .form {

@@ -14,7 +14,10 @@
     props: {
       owner: String,
       name: String,
-    }
+    },
+    created: function () {
+          // alert('egx');
+        },
   }
 </script>
 
