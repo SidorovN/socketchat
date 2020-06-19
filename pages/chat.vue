@@ -1,7 +1,7 @@
 <template>
   <div class="chatroom">
     <div class="chat">
-      <Navbar 
+      <Sidebar 
       />
 
     <Container class="chat__container">
@@ -36,14 +36,14 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Container from '@/components/Container';
 import Message from '@/components/Message';
-import Navbar from '@/components/Navbar';
+import Sidebar from '@/components/Sidebar';
   export default {
     components: {
       btn: Button,
       Container,
       Input,
       Message,
-      Navbar
+      Sidebar
     },
     data () {
       return {
