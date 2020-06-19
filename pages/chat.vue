@@ -123,6 +123,8 @@ import Sidebar from '@/components/Sidebar';
   margin-right: 24px;
   display: block;
   width: 100%;
+  font-size: 18px;
+  font-family: inherit;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50px;
