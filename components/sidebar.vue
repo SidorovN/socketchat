@@ -5,16 +5,16 @@
       </button>
       <div class="sidebar__content">
         <nav class="sidebar__nav">
-          <nuxt-link to='/' class="sidebar__link" @click="logoutUser"> < = </nuxt-link>
-          <h2 class="sidebar__title">Chat room {{room}}</h2>
+          <a href='/' class="sidebar__link" @click="logoutUser"> Logout </a>
+          <h2 class="sidebar__title">Chat room {{user.room}}</h2>
         </nav>
         <p class="sidebar__subtitle">Users list</p>
         <ul 
         :class="['sidebar__users', {sidebar__users_opened : showSidebar}]">
           <li
-          v-for="u in users"
+          v-for="u in currentUsers"
           :key="u.id"
-          :class="['sidebar__user', {sidebar__user_active : u.active}]"
+          :class="['sidebar__user', {sidebar__user_active : u.id === user.id }]"
           >{{u.name}}</li>
         </ul>
       </div>
@@ -22,23 +22,23 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
   export default {
     data() {
       return {        
         showSidebar: false,
       }
     },
+    computed: mapState(["user", "messages","currentUsers"]),
     methods: {
       toggleSidebar() {
         this.showSidebar = !this.showSidebar
       },      
       logoutUser() {
-        console.log('logoutUser')
+        console.log('logout')
+        this.$socket.client.emit("userLogout",this.user)
       }
-    },
-    props: {
-      users: Array,
-      room: Number
     },
   }
 </script>

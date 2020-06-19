@@ -1,10 +1,8 @@
 <template>
   <div class="chatroom">
     <div class="chat">
-      <!-- <Sidebar 
-      :users="getUsers"
-      :room="404"
-      /> -->
+      <Sidebar 
+      />
 
     <Container class="chat__container">
 
@@ -14,6 +12,7 @@
           :key="messages.indexOf(m)"
           :owner="setOwner(m)"
           :name="m.name"
+          @created="scrollBottom"
           >{{m.text}}</Message>
         </ul>
 
@@ -39,9 +38,6 @@ import Container from '@/components/Container';
 import Message from '@/components/Message';
 import Sidebar from '@/components/Sidebar';
   export default {
-    mounted() {
-      console.log(this.messages,this.user)
-    },
     components: {
       btn: Button,
       Container,
@@ -55,7 +51,7 @@ import Sidebar from '@/components/Sidebar';
       }
     },
     
-    computed: mapState(["user", "messages"]),
+    computed: mapState(["user", "messages","currentUsers"]),
     methods: {
       sendMessage() {
         this.$socket.client.emit("sendMessage", {
@@ -70,8 +66,13 @@ import Sidebar from '@/components/Sidebar';
         return 'bot'
       },
       clearField(res){
-        console.log('удоли')
         if(!res) this.message=''
+        this.scrollBottom()
+      },
+      scrollBottom(){
+        const messageList = document.querySelector('.chat__messages-list')
+        console.log(messageList)
+        messageList.scrollTo(0,messageList.scrollHeight)
       }
     }
   }
@@ -101,6 +102,9 @@ import Sidebar from '@/components/Sidebar';
   list-style: none;
   padding: 0;
   overflow: auto;
+}
+.chat__messages-list::-webkit-scrollbar {
+  width: 0;
 }
 
 .form {
