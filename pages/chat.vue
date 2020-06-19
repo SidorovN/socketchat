@@ -38,9 +38,6 @@ import Container from '@/components/Container';
 import Message from '@/components/Message';
 import Sidebar from '@/components/Sidebar';
   export default {
-    mounted() {
-      console.log(this.messages,this.user)
-    },
     components: {
       btn: Button,
       Container,

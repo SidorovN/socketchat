@@ -5,7 +5,7 @@
       </button>
       <div class="sidebar__content">
         <nav class="sidebar__nav">
-          <nuxt-link to='/' class="sidebar__link" @click="logoutUser"> Logout </nuxt-link>
+          <a href='/' class="sidebar__link" @click="logoutUser"> Logout </a>
           <h2 class="sidebar__title">Chat room {{user.room}}</h2>
         </nav>
         <p class="sidebar__subtitle">Users list</p>
@@ -36,7 +36,8 @@ import { mapState } from "vuex";
         this.showSidebar = !this.showSidebar
       },      
       logoutUser() {
-        console.log('logoutUser')
+        console.log('logout')
+        this.$socket.client.emit("userLogout",this.user)
       }
     },
   }

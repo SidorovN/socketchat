@@ -11,8 +11,8 @@ class Users {
   remove(id) {
     const user = this.get(id)
 
-    if(user) {
-      this.users.filter(user=>user.id == id)
+    if (user) {
+      this.users = this.users.filter(user => user.id !== id)
     }
     return user
   }
@@ -52,14 +52,10 @@ io.on('connection',socket => {
       .to(data.room)
       .emit('newMessage', m('admin', `Пользователь ${data.name} зашел.`))
 
-     socket.emit('setUsers', users.getUserByRoom(data.room))     
+     socket.emit('updateUsers', users.getUserByRoom(data.room))     
       socket.broadcast
       .to(data.room)
-      .emit('addUser', {
-        id: socket.id,
-        name: data.name,
-        room: data.room
-      })
+      .emit('updateUsers', users.getUserByRoom(data.room))
     
   })
     socket.on('sendMessage',(data,callback)=> {
@@ -77,6 +73,32 @@ io.on('connection',socket => {
         callback()
       }
     })
+    socket.on('userLogout',(data,callback)=> {
+      const user = users.remove(data.id)
+      console.log(user)
+      console.log('updateUsers', users.getUserByRoom(data.room))
+      if (user) {
+        socket.broadcast
+        .to(data.room)
+        .emit('newMessage', m('admin', `Пользователь ${data.name} покинул чат.`))
+        
+      }
+      
+      socket.broadcast
+      .to(data.room)
+      .emit('updateUsers', users.getUserByRoom(data.room))
+    })
+
+    socket.on('disconnect', () => {
+    const user = users.remove(socket.id)
+    if (user) {
+      io.to(user.room).emit('updateUsers', users.getUserByRoom(user.room))
+      io.to(user.room).emit(
+        'newMessage',
+        m('admin', `Пользователь ${user.name} вышел.`)
+      )
+    }
+  })
 
   console.log('Io connected')
 
