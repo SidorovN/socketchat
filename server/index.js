@@ -51,6 +51,16 @@ io.on('connection',socket => {
     socket.broadcast
       .to(data.room)
       .emit('newMessage', m('admin', `Пользователь ${data.name} зашел.`))
+
+     socket.emit('setUsers', users.getUserByRoom(data.room))     
+      socket.broadcast
+      .to(data.room)
+      .emit('addUser', {
+        id: socket.id,
+        name: data.name,
+        room: data.room
+      })
+    
   })
     socket.on('sendMessage',(data,callback)=> {
       const user = users.get(data.id)
@@ -59,6 +69,15 @@ io.on('connection',socket => {
         callback()
       } 
     })
+    
+    socket.on('userJoined',(data,callback)=> {
+      const user = users.get(data.id)
+      if (user) {
+        io.to(user.room).emit('newMessage', m(user.name,data.text,data.id))
+        callback()
+      }
+    })
+
   console.log('Io connected')
 
 })

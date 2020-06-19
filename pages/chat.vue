@@ -1,10 +1,8 @@
 <template>
   <div class="chatroom">
     <div class="chat">
-      <!-- <Sidebar 
-      :users="getUsers"
-      :room="404"
-      /> -->
+      <Sidebar 
+      />
 
     <Container class="chat__container">
 
@@ -56,7 +54,7 @@ import Sidebar from '@/components/Sidebar';
       }
     },
     
-    computed: mapState(["user", "messages"]),
+    computed: mapState(["user", "messages","currentUsers"]),
     methods: {
       sendMessage() {
         this.$socket.client.emit("sendMessage", {
@@ -71,7 +69,6 @@ import Sidebar from '@/components/Sidebar';
         return 'bot'
       },
       clearField(res){
-        console.log('удоли')
         if(!res) this.message=''
         this.scrollBottom()
       },
