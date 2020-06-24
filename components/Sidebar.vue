@@ -1,7 +1,7 @@
 <template>
     <aside :class="['sidebar', {sidebar_opened : showSidebar}]">
-      <button class="sidebar__toggler" @click="toggleSidebar">
-        +
+      <button class="sidebar__toggler"  @click="toggleSidebar">
+        <div  :class="['sidebar__image', {sidebar__image_opened : showSidebar}]"></div>    
       </button>
       <div class="sidebar__content">
         <nav class="sidebar__nav">
@@ -58,6 +58,8 @@ import { mapState } from "vuex";
   box-shadow: 0 -5px 3px 5px rgb(25, 25, 25);
 }
 .sidebar__toggler {
+  text-align: center;
+  padding: 0;
   color: white;
   font-size: 32px;
   background-color: inherit;
@@ -69,6 +71,51 @@ import { mapState } from "vuex";
   height: 40px;
   width:40px;
 }
+
+
+.sidebar__image {  
+  margin: 0 auto;
+  width: 24px;
+  height: 3px;  
+  background-color: #fff;
+  position: relative;
+}
+.sidebar__image::after {
+  position:absolute;
+  content: '';
+  width: 24px;
+  height: 3px;
+  left:0;
+  background-color: #fff;
+  top: 8px;  
+  transform-origin: left;
+  transition: .3s;
+}
+.sidebar__image::before {
+  position:absolute;
+  content: '';  
+  width: 24px;
+  height: 3px;
+  left:0;
+  background-color: #fff;  
+  top: -8px; 
+  transform-origin: left;
+  transition: .3s;
+}
+.sidebar__image_opened::before {
+    width: 12px;
+    transform: rotate(-45deg);
+    top: 0;    
+    left:1px;
+}
+.sidebar__image_opened::after {
+    width: 12px;
+    transform: rotate(45deg);
+    top: 0;
+    left:1px;
+    
+}
+
 
 .sidebar__nav {
   height: 40px;
@@ -109,8 +156,4 @@ import { mapState } from "vuex";
 .sidebar__user_active {
   color: green
 }
-/* 
-.sidebar__users_opened {
-  width: auto;
-} */
 </style>
