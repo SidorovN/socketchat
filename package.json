@@ -8,13 +8,21 @@
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "herokuheroku ": "nuxt generate"
+  },
+  "engines": {
+    "node": "12.x"
   },
   "dependencies": {
-    "nuxt": "^2.0.0",
+    "@nuxtjs/pwa": "^3.0.0-0",
     "cross-env": "^5.2.0",
     "express": "^4.16.4",
-    "@nuxtjs/pwa": "^3.0.0-0"
+    "nuxt": "^2.0.0",
+    "nuxt-socket-io": "^1.1.1",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "vue-socket.io-extended": "^4.0.3"
   },
   "devDependencies": {
     "nodemon": "^1.18.9",

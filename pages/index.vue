@@ -72,6 +72,8 @@ export default {
   width: 100%;
   height: 54px;
   display: block;
+  font-size: 18px;
+  font-family: inherit;
   width: 100%;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.12);
