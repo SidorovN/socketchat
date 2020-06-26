@@ -18,9 +18,7 @@ export const mutations = {
   updateUsers(state, users) {
     state.currentUsers=users
   },
-  // addCurrentUsers(state, user) {
-  //   state.currentUsers.push(user)
-  // },
+
   setCurrentUsers(state, users) {    
     users.forEach(user => {
         state.currentUsers.push(user)    
@@ -28,7 +26,6 @@ export const mutations = {
   },
   removeCurrentUser(state, data) {
     state.currentUsers.filter(user => user.id == data.id);
-    console.log(state.currentUsers)
   },
 }
 

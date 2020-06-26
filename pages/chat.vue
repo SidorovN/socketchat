@@ -12,7 +12,6 @@
           :key="messages.indexOf(m)"
           :owner="setOwner(m)"
           :name="m.name"
-          @created="scrollBottom"
           >{{m.text}}</Message>
         </ul>
 
@@ -38,6 +37,7 @@ import Container from '@/components/Container';
 import Message from '@/components/Message';
 import Sidebar from '@/components/Sidebar';
   export default {
+  middleware: ["chat"], 
     components: {
       btn: Button,
       Container,
@@ -50,7 +50,11 @@ import Sidebar from '@/components/Sidebar';
         message: ''
       }
     },
-    
+    sockets: {
+      newMessage() {
+        this.scrollBottom()
+      }
+    },    
     computed: mapState(["user", "messages","currentUsers"]),
     methods: {
       sendMessage() {
@@ -67,12 +71,13 @@ import Sidebar from '@/components/Sidebar';
       },
       clearField(res){
         if(!res) this.message=''
-        this.scrollBottom()
       },
       scrollBottom(){
         const messageList = document.querySelector('.chat__messages-list')
-        console.log(messageList)
         messageList.scrollTo(0,messageList.scrollHeight)
+      },
+      beforeCreate(){
+        if(this.user)this.$router.redirect('/message=noUser')
       }
     }
   }
