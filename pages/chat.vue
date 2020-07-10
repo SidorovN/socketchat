@@ -20,7 +20,7 @@
           <form class="form" @submit.prevent="sendMessage">
             <Container class="form__container">
           <input class="from__input" v-model="message"/>
-          <btn class="from__btn">
+          <btn class="from__btn" :size="'m'" :type="'action'">
             Send
           </btn>          
           </Container>
@@ -29,6 +29,7 @@
 </template>
 
 <script scoped>
+import { mapMutations } from "vuex";
 import { mapState } from "vuex";
 
 import Input from '@/components/ui/Input'
@@ -54,9 +55,13 @@ import Sidebar from '@/components/Sidebar';
       newMessage() {
         this.scrollBottom()
       }
-    },    
+    },
+    created(){
+      this.setDefaultUser()
+    },
     computed: mapState(["user", "messages","currentUsers"]),
     methods: {
+      ...mapMutations(["setDefaultUser"]),
       sendMessage() {
         this.$socket.client.emit("sendMessage", {
           id: this.user.id,
@@ -84,14 +89,14 @@ import Sidebar from '@/components/Sidebar';
    
 </script>
 
-<style>
+<style scoped>
 
 .chat__container{
   height: 100%;
   overflow: hidden;
 }
 .chatroom {
-  max-width: 1440px;
+  /* max-width: 1440px; */
   margin: 0 auto;
   overflow: hidden;
   height: 100%;
@@ -114,7 +119,7 @@ import Sidebar from '@/components/Sidebar';
 
 .form {
   width: 100%;
-  background: #121212;;
+  background: #121212;
   box-shadow: 0 3px 30px 3px rgb(68, 68, 68);
 }
 .form__container {

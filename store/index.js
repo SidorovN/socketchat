@@ -6,7 +6,13 @@ export const state = () => ({
 
 export const mutations = {
   setUser(state, user) {
-    state.user = user
+    state.user = user;
+    state.messages = [];
+    window.localStorage.setItem('user',user.name)
+  },
+  setDefaultUser(state) { 
+    state.user.name = JSON.parse(window.localStorage.getItem('name'))
+    state.user.room = JSON.parse(window.localStorage.getItem('room'))
   },
   clearData(state) {
     state.user = {}

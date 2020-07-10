@@ -5,8 +5,11 @@
       </button>
       <div class="sidebar__content">
         <nav class="sidebar__nav">
-          <a href='/' class="sidebar__link" @click="logoutUser"> Logout </a>
-          <h2 class="sidebar__title">Chat room {{user.room}}</h2>
+          
+      <btn class="sidebar__btn" :size="'s'" :type="'invite'" @btn-click="invite">Invite</btn>
+          <h2 class="sidebar__title">{{ 
+            +user.room == user.room ? 'Chat room ' + user.room: 'Private room'            
+            }}</h2>
         </nav>
         <p class="sidebar__subtitle">Users list</p>
         <ul 
@@ -16,7 +19,12 @@
           :key="u.id"
           :class="['sidebar__user', {sidebar__user_active : u.id === user.id }]"
           >{{u.name}}</li>
-        </ul>
+        </ul>      
+        
+        <nav class="sidebar__nav">  
+          <btn @btn-click="logoutUser" :size="'s'" :type="'danger'"> Logout </btn>
+          <btn @btn-click="changeRoom" :size="'s'" :type="'invite'"> Change room </btn>
+        </nav>
       </div>
     </aside>
 </template>
@@ -24,7 +32,11 @@
 <script>
 import { mapState } from "vuex";
 
+import Button from '@/components/ui/Button'
   export default {
+    components: {
+      btn: Button,
+    },
     data() {
       return {        
         showSidebar: false,
@@ -36,8 +48,25 @@ import { mapState } from "vuex";
         this.showSidebar = !this.showSidebar
       },      
       logoutUser() {
-        console.log('logout')
+        window.localStorage.removeItem('room')
+        window.localStorage.removeItem('name')
+        window.localStorage.removeItem('id')
+        this.$router.push('/')
         this.$socket.client.emit("userLogout",this.user)
+      },
+      changeRoom() {        
+        window.localStorage.removeItem('room')
+        this.$socket.client.emit("userLogout",this.user)
+        this.$router.push('/')
+      },
+      invite(){
+        navigator.clipboard.writeText(`${location.origin}/?invite=${this.user.room}`)
+          .then(() => {
+            // Получилось!
+          })
+          .catch(err => {
+            console.log('Something went wrong', err);
+          });
       }
     },
   }
@@ -122,9 +151,9 @@ import { mapState } from "vuex";
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 30px;
 }
 .sidebar__link {
+  font-size: 12px;
   text-decoration: none;
   color: inherit
 }
@@ -135,16 +164,21 @@ import { mapState } from "vuex";
   right: 0;
   width: 300px;
   height: 100%;
-  overflow: hidden;
+  
+  display: flex;
+  flex-direction: column;
 }
 
 
 .sidebar__subtitle {
+  margin-top: 30px;
   margin-bottom: 18px;
   font-size: 16px;
 }
 .sidebar__users {
+  flex-grow: 1;
   padding: 0;
+  overflow-y:auto ;
   width: 300px;
 }
 
