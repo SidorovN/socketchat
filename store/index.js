@@ -6,7 +6,13 @@ export const state = () => ({
 
 export const mutations = {
   setUser(state, user) {
-    state.user = user
+    state.user = user;
+    state.messages = [];
+    window.localStorage.setItem('user',user.name)
+  },
+  setDefaultUser(state) { 
+    state.user.name = JSON.parse(window.localStorage.getItem('name'))
+    state.user.room = JSON.parse(window.localStorage.getItem('room'))
   },
   clearData(state) {
     state.user = {}
@@ -18,9 +24,7 @@ export const mutations = {
   updateUsers(state, users) {
     state.currentUsers=users
   },
-  // addCurrentUsers(state, user) {
-  //   state.currentUsers.push(user)
-  // },
+
   setCurrentUsers(state, users) {    
     users.forEach(user => {
         state.currentUsers.push(user)    
@@ -28,7 +32,6 @@ export const mutations = {
   },
   removeCurrentUser(state, data) {
     state.currentUsers.filter(user => user.id == data.id);
-    console.log(state.currentUsers)
   },
 }
 

@@ -12,7 +12,6 @@
           :key="messages.indexOf(m)"
           :owner="setOwner(m)"
           :name="m.name"
-          @created="scrollBottom"
           >{{m.text}}</Message>
         </ul>
 
@@ -21,7 +20,7 @@
           <form class="form" @submit.prevent="sendMessage">
             <Container class="form__container">
           <input class="from__input" v-model="message"/>
-          <btn class="from__btn">
+          <btn class="from__btn" :size="'m'" :type="'action'">
             Send
           </btn>          
           </Container>
@@ -30,6 +29,7 @@
 </template>
 
 <script scoped>
+import { mapMutations } from "vuex";
 import { mapState } from "vuex";
 
 import Input from '@/components/ui/Input'
@@ -38,6 +38,7 @@ import Container from '@/components/Container';
 import Message from '@/components/Message';
 import Sidebar from '@/components/Sidebar';
   export default {
+  middleware: ["chat"], 
     components: {
       btn: Button,
       Container,
@@ -50,9 +51,17 @@ import Sidebar from '@/components/Sidebar';
         message: ''
       }
     },
-    
+    sockets: {
+      newMessage() {
+        this.scrollBottom()
+      }
+    },
+    created(){
+      this.setDefaultUser()
+    },
     computed: mapState(["user", "messages","currentUsers"]),
     methods: {
+      ...mapMutations(["setDefaultUser"]),
       sendMessage() {
         this.$socket.client.emit("sendMessage", {
           id: this.user.id,
@@ -67,26 +76,27 @@ import Sidebar from '@/components/Sidebar';
       },
       clearField(res){
         if(!res) this.message=''
-        this.scrollBottom()
       },
       scrollBottom(){
         const messageList = document.querySelector('.chat__messages-list')
-        console.log(messageList)
         messageList.scrollTo(0,messageList.scrollHeight)
+      },
+      beforeCreate(){
+        if(this.user)this.$router.redirect('/message=noUser')
       }
     }
   }
    
 </script>
 
-<style>
+<style scoped>
 
 .chat__container{
   height: 100%;
   overflow: hidden;
 }
 .chatroom {
-  max-width: 1440px;
+  /* max-width: 1440px; */
   margin: 0 auto;
   overflow: hidden;
   height: 100%;
@@ -109,7 +119,7 @@ import Sidebar from '@/components/Sidebar';
 
 .form {
   width: 100%;
-  background: #121212;;
+  background: #121212;
   box-shadow: 0 3px 30px 3px rgb(68, 68, 68);
 }
 .form__container {

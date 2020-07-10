@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 
 
 export default ({ store }) => {
-  Vue.use(VueSocketIO, io('https://ssocketchat.herokuapp.com'),
+  Vue.use(VueSocketIO, io('http://localhost:3000'),
   {
   store,
   debug: false,
