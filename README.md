@@ -22,6 +22,7 @@
   <li><p>Nuxt.js</p></li>
   <li><p>Socket.io</p></li>
 </ul>
+
 ### Инструкция по запуску проекта
 ```bash
 
