@@ -7,7 +7,7 @@
     <Container class="chat__container">
 
         <ul class="chat__messages-list">
-          <Message 
+          <Message @loadMessage="scrollBottom"
           v-for="m in messages"
           :key="messages.indexOf(m)"
           :owner="setOwner(m)"

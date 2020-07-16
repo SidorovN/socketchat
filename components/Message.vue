@@ -15,8 +15,8 @@
       owner: String,
       name: String,
     },
-    created: function () {
-          // alert('egx');
+     beforeUpdate: function () {
+          this.$emit('loadMessage')
         },
   }
 </script>
