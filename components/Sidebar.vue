@@ -10,6 +10,10 @@
           <h2 class="sidebar__title">{{ 
             +user.room == user.room ? 'Chat room ' + user.room: 'Private room'            
             }}</h2>
+            
+      <p class="sidebar__inviteMessage"
+      :class="['sidebar__inviteMessage', {sidebar__inviteMessage_opened : showMessage}]"
+      >Link has been copied to clipboard</p>
         </nav>
         <p class="sidebar__subtitle">Users list</p>
         <ul 
@@ -19,8 +23,7 @@
           :key="u.id"
           :class="['sidebar__user', {sidebar__user_active : u.id === user.id }]"
           >{{u.name}}</li>
-        </ul>      
-        
+        </ul>
         <nav class="sidebar__nav">  
           <btn @btn-click="logoutUser" :size="'s'" :type="'danger'"> Logout </btn>
           <btn @btn-click="changeRoom" :size="'s'" :type="'invite'"> Change room </btn>
@@ -39,7 +42,8 @@ import Button from '@/components/ui/Button'
     },
     data() {
       return {        
-        showSidebar: false,
+        showSidebar: false,        
+        showMessage: false,
       }
     },
     computed: mapState(["user", "messages","currentUsers"]),
@@ -62,7 +66,10 @@ import Button from '@/components/ui/Button'
       invite(){
         navigator.clipboard.writeText(`${location.origin}/?invite=${this.user.room}`)
           .then(() => {
-            // Получилось!
+            this.showMessage = true
+            setTimeout(()=>{
+              this.showMessage = false
+            },2000)
           })
           .catch(err => {
             console.log('Something went wrong', err);
@@ -147,10 +154,22 @@ import Button from '@/components/ui/Button'
 
 
 .sidebar__nav {
+  position: relative;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.sidebar__inviteMessage {
+  position: absolute;
+  opacity: 0;
+  font-weight: bold;
+  bottom: -24px;
+  font-size: 12px;
+  transition: .3s ease;
+}
+.sidebar__inviteMessage_opened {
+  opacity: 1;
 }
 .sidebar__link {
   font-size: 12px;
